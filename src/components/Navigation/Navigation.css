@@ -1,0 +1,49 @@
+.header__navigation {
+display: flex;
+align-items: center;
+}
+
+.navigation__link {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.navigation__link:hover {
+	opacity: 0.7;
+	transition: .3s;
+}
+
+.navigation__link:not(:last-child) {
+  margin-right: 20px;
+}
+
+.navigation__link_active {
+  font-weight: 500;
+  /* text-decoration: underline;
+  text-underline-offset: 8px; */
+}
+
+.header__profile-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin: 0 0 0 50px;
+}
+
+.header__profile-link:hover {
+	opacity: 0.7;
+	transition: .3s;
+}
+
+.header__profile-link-text {
+  margin: 0 13px 0 0;
+  color: white;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
