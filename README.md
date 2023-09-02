@@ -1,6 +1,6 @@
 
 # movies-explorer-frontend
-Репозиторий для фронтенд части приложения movies-explorer
+Репозиторий для фронтенд-части приложения movies-explorer
 
 ## Название макета
   Dark-4
