@@ -1,4 +1,4 @@
-.section__title {
+.section-title {
 	font-size: 22px;
 	font-style: normal;
 	font-weight: 400;
@@ -7,4 +7,12 @@
 	border-bottom: 1px solid #DADADA;
 	padding-bottom: 23px;
 	margin: 0;
+}
+
+@media screen and (max-width: 767px) {
+	.section-title {
+		font-size: 18px;
+		letter-spacing: -0.72px;
+		padding-bottom: 28px;
+	}
 }

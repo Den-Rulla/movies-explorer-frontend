@@ -1,0 +1,98 @@
+.profile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.profile__title {
+  margin: 0 auto;
+	padding: 74px 0 106px 0;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	text-align: center;
+}
+
+.profile__form {
+	max-width: 410px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.profile__inputs-cover {
+	display: flex;
+	padding: 16px 0;
+}
+
+.profile__inputs-cover:not(:last-of-type) {
+	border-bottom: 1px solid #424242;
+}
+
+.profile__input-text {
+	width: 15%;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+.profile__input {
+ 	width: 85%;
+ 	font-size: 11px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	outline: none;
+	border: none;
+	background-color: unset;
+	color: #fff;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	text-align: right;
+}
+
+.profile__form-edit-btn {
+	margin: 202px auto 16px auto;
+	padding: 0;
+	border: none;
+	background-color: unset;
+	cursor: pointer;
+	color: #fff;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	max-width: 140px;
+}
+
+.profile__form-edit-btn:hover {
+	opacity: .7;
+  transition: .3s;
+}
+
+.profile__logout-btn {
+	padding: 0;
+	border: none;
+	background-color: unset;
+	cursor: pointer;
+	color: #EE3465;
+	font-size: 13px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+.profile__logout-btn:hover {
+	opacity: .7;
+  transition: .3s;
+}
+
+  @media screen and (max-width: 767px) {
+    .profile__form {
+      max-width: 260px;
+    }
+  }

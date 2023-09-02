@@ -5,7 +5,7 @@
   background-color: #073042;
   padding: 142px 70px 85px 70px;
   max-width: 1280px;
-  margin: -77px auto 0 auto ;
+  margin: -80px auto 0 auto ;
 }
 
 .promo__title {
@@ -47,4 +47,66 @@
 .promo__logo {
   width: 310px;
   height: 304px;
+}
+
+@media screen and (max-width: 1139px) {
+	.promo {
+    padding: 18px 30px 76px 30px;
+    flex-direction: column-reverse;
+    align-items: center;
+	}
+
+  .promo__logo {
+    margin-top: 199px;
+    margin-bottom: 48px;
+  }
+
+  .promo__title {
+    text-align: center;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 50px;
+  }
+
+  .promo__description {
+    text-align: center;
+    margin: 0 auto;
+    padding: 22px 0 92px 0;
+    max-width: 260px;
+  }
+
+  .promo__link {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 129px;
+    height: 36px;
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+	.promo__logo {
+    width: 210px;
+    height: 206px;
+    margin-top: 128px;
+    margin-bottom: 44px;
+	}
+
+  .promo__title {
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 38px;
+    letter-spacing: -1.2px;
+  }
+
+  .promo__description {
+    padding: 24px 0 79px 0;
+  }
+  .promo {
+    padding-bottom: 30px;
+	}
 }

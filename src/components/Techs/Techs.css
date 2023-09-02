@@ -58,3 +58,66 @@
 .techs__list-item:not(:last-child) {
 	margin-right: 10px;
 }
+
+@media screen and (max-width: 1139px) {
+	.techs {
+    padding: 90px 50px;
+	}
+
+	.techs__text {
+		padding: 80px 0 83px 0;
+	}
+
+	.techs__title {
+		padding-bottom: 22px;
+	}
+
+	.techs__description {
+		margin: 0 auto;
+		max-width: 460px;
+		font-size: 12px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 18px;
+		letter-spacing: -0.48px;
+	}
+
+	.techs__list-item {
+		font-size: 12px;
+		letter-spacing: -0.48px;
+		background-color: #303030;
+		width: 84px;
+		height: 57px;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.techs {
+    padding: 70px 18px;
+	}
+
+	.techs__text {
+		padding: 60px 0 50px 0;
+	}
+
+	.techs__title {
+		font-size: 30px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: normal;
+		letter-spacing: -1.2px;
+		padding-bottom: 22px;
+	}
+
+	.techs__description {
+		font-size: 11px;
+		line-height: 16px;
+		letter-spacing: -0.44px;
+	}
+
+	.techs__list {
+		display: grid;
+		gap: 10px;
+		grid-template-columns: repeat(2, 84px);
+	}
+}

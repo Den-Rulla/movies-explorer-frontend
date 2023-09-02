@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -12,9 +13,27 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import './App.css';
 
 function App() {
+
+  const [isAuth, setIsAuth] = useState(true); //переключатель состояния хедера авторизаван/не авторизован
+
+  const { pathname } = useLocation();
+
+  const renderHeader = [
+    '/',
+    '/movies',
+    '/saved-movies',
+    '/profile',
+  ].includes(pathname);
+
+  const renderFooter = [
+    '/',
+    '/movies',
+    '/saved-movies'
+  ].includes(pathname);
+
   return (
     <div className='page'>
-      <Header />
+      { renderHeader ? <Header isAuth={isAuth} setIsAuth={setIsAuth} /> : "" }
       <main className='main'>
         <Routes>
           <Route path='/' element={<Main />} />
@@ -26,7 +45,7 @@ function App() {
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </main>
-      <Footer />
+      { renderFooter ? <Footer /> : "" }
     </div>
   );
 }

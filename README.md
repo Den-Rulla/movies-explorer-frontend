@@ -1,7 +1,10 @@
 
 # movies-explorer-frontend
 Репозиторий для фронтенд части приложения movies-explorer
-  
-## Ссылка на проект 
+
+## Название макета
+  Dark-4
+
+## Ссылка на проект
 
 https://rda-movies-explorer.nomoreparties.co/

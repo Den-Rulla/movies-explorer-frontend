@@ -1,7 +1,7 @@
 @import url(./vendor/normalize.css);
 @import url(./vendor/fonts/fonts.css);
 
-.root {
+.body {
   background-color: #202020;
   font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
   -moz-osx-font-smoothing: grayscale;
@@ -11,6 +11,7 @@
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   color: #fff;
+  min-width: 320px;
 }
 
 ::-webkit-scrollbar {
