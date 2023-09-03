@@ -9,7 +9,7 @@ export default function AuthPage({
 	textBeforeLink,
 	linkAnchor,
 	linkUrl,
-	children 
+	children
 }) {
 
 	function handleSubmit(e) {
@@ -20,7 +20,7 @@ export default function AuthPage({
     <div className='auth-page'>
 			<Logo />
       <h1 className='auth-page__title'>{title}</h1>
-      <form className='auth-page__form' name={name} id={name} onSubmit={handleSubmit}>
+      <form className={`auth-page__form auth-page__form_type_${name}`} name={name} id={name} onSubmit={handleSubmit}>
 				{children}
 			</form>
 			<button className='auth-page__form-btn' type='submit' form={name}>{submitBtnText}</button>

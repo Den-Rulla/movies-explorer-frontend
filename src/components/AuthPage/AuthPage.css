@@ -13,12 +13,16 @@
 	line-height: normal;
 }
 
-.auth-page__form {
-	min-height: 22vh;
+.auth-page__form_type_register {
+  margin-bottom: 134px;
+}
+
+.auth-page__form_type_login {
+  margin-bottom: 204px;
 }
 
 .auth-page__form-btn {
-	margin: 134px 0 16px 0;
+	margin: 0 0 16px 0;
 	padding: 0;
 	border: none;
 	border-radius: 3px;
@@ -42,6 +46,7 @@
 .auth-page__link-cover {
 	display: flex;
 	justify-content: center;
+  padding-bottom: 50px;
 }
 
 .auth-page__link-text {
@@ -94,5 +99,13 @@
 
   .auth-page__title {
     padding: 50px 0 80px 0;
+  }
+
+  .auth-page__form_type_register {
+    margin-bottom: 221px;
+  }
+
+  .auth-page__form_type_login {
+    margin-bottom: 291px;
   }
 }

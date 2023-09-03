@@ -28,6 +28,7 @@
 	font-weight: 400;
 	line-height: normal;
 	outline: none;
+  transition: .3s;
 }
 
 .auth-page-input__input:focus {
