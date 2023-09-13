@@ -1,0 +1,59 @@
+@keyframes fadeOut {
+
+  0%  { opacity: 0; }
+
+  10% { opacity: 1; }
+
+  90% { opacity: 1; transform: translateY(0px);}
+
+  99% { opacity: 0; transform: translateY(-30px);}
+
+  100% { opacity: 0; }
+}
+
+.tooltip {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 72px;
+  height: 60px;
+  width: 292px;
+  background-color: rgb(61, 220, 132, .5);
+  border-radius: 8px;
+  opacity: 0;
+  display: none;
+}
+
+.tooltip_opened {
+  display: block;
+  animation: fadeOut 3s linear forwards;
+}
+
+.tooltip__close-btn {
+  position: relative;
+  left: 130px;
+  top: 5px;
+  border: none;
+  background-color: unset;
+  background: url(../../images/tooltip-close-icon.svg) no-repeat center/cover;
+  width: 20px;
+  height: 20px;
+  opacity: .4;
+  cursor: pointer;
+}
+
+.tooltip__close-btn:hover {
+  opacity: .8;
+  transition: .3s;
+}
+
+.tooltip__text {
+  padding: 0;
+  margin: 0 auto;
+  text-align: center;
+  opacity: .7;
+  font-size: 15px;
+}

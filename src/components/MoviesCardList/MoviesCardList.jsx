@@ -26,12 +26,6 @@ export default function MoviesCardList() {
       <MoviesCard />
     </ul>
     )}
-
-    { !isLoading ? (
-      <div className='more-btn-cover'>
-        <button className='more-btn' type='button'>Ещё</button>
-      </div>
-    ) : '' }
   </>
   );
 }

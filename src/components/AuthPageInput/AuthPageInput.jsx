@@ -9,7 +9,10 @@ export default function AuthPageInput({
 	minLength,
 	maxLength,
   placeholder,
-	errorText
+	errorText,
+  value,
+  onChange,
+  errClass
 }) {
   return (
     <div className='auth-page-input'>
@@ -17,7 +20,7 @@ export default function AuthPageInput({
 				htmlFor={id}>
 				{label}
 			</label>
-			<input className='auth-page-input__input'
+			<input className={`auth-page-input__input ${errClass ? 'auth-page-input__input_type_error' : ''}`}
 				type={type}
 				name={name}
 				id={id}
@@ -25,6 +28,8 @@ export default function AuthPageInput({
         maxLength={maxLength}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        value={value}
+        onChange={onChange}
 				required
 			/>
 			<span className='auth-page-input-error'>

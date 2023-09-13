@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import './Movies.css';
+import MoreButton from '../MoreButton/MoreButton';
 
 export default function Movies() {
   return (
@@ -12,6 +13,7 @@ export default function Movies() {
 
       <SearchForm />
       <MoviesCardList />
+      <MoreButton />
     </section>
   );
 }

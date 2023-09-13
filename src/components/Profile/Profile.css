@@ -7,7 +7,7 @@
 
 .profile__title {
   margin: 0 auto;
-  padding: 72px 0 108px 0;
+  padding: 72px 0 94px 0;
 	font-size: 24px;
 	font-style: normal;
 	font-weight: 500;
@@ -64,6 +64,10 @@
 
 .profile__inputs-cover:has(.profile__input:focus) > .profile__input-text {
   font-size: 12px;
+}
+
+.profile__inputs-cover:has(.profile__input_error) > .profile__input-text {
+  color:  #FF004C;
 }
 
 .profile__buttons-cover {
@@ -123,9 +127,27 @@
 	font-weight: 500;
 	line-height: normal;
 	cursor: pointer;
+  transition: .3s;
 }
 
-.profile__update-error {
+.profile__form-save-btn:hover {
+  opacity: 0.8;
+  background: #3456F3;
+	transition: .3s;
+}
+
+.profile__form-save-btn_disabled {
+  background-color: #F8F8F8;
+  color: #C2C2C2;
+}
+
+.profile__form-save-btn_disabled:hover {
+  background-color: #F8F8F8;
+  opacity: 1;
+  cursor: auto;
+}
+
+.profile__server-answer {
   color: #FF004C;
   text-align: center;
   font-size: 11px;
@@ -135,10 +157,19 @@
   padding-bottom: 20px;
 }
 
-.profile__form-save-btn:hover {
-  opacity: 0.8;
-  background: #3456F3;
-	transition: .3s;
+.profile__server-answer_ok {
+  color: #15ff00;
+  font-size: 13px
+}
+
+.profile__error {
+  color: #FF004C;
+  text-align: right;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  min-height: 14px;
 }
 
 .profile__form-save-btn_active {

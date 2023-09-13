@@ -1,9 +1,32 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import AuthPage from '../AuthPage/AuthPage';
 import AuthPageInput from '../AuthPageInput/AuthPageInput';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Register.css';
 
-export default function Register() {
+export default function Register({ handleRegister, serverAnswer, setServerAnswer, isLoading }) {
+
+  const {values, handleChange, handleChangeEmail, errors, isValid, resetForm } = useFormAndValidation();
+
+  useEffect(() => {
+		resetForm();
+	}, [resetForm]);
+
+  useEffect(() => {
+		setServerAnswer('');
+	}, [setServerAnswer]);
+
+	function handleSubmit(e) {
+    e.preventDefault();
+    setServerAnswer('');
+    handleRegister({
+			name: values.name,
+			email: values.email,
+			password: values.password,
+		});
+  }
+
   return (
     <section className='register'>
       <Helmet>
@@ -13,10 +36,13 @@ export default function Register() {
       <AuthPage
         title='Добро пожаловать!'
         name='register'
-        submitBtnText='Зарегистрироваться'
+        submitBtnText={`${!isLoading ? 'Зарегистрироваться' : 'Регистрируем...'}`}
         textBeforeLink='Уже зарегистрированы?'
         linkAnchor='Войти'
         linkUrl='/signin'
+        isDisabled={!isValid || isLoading}
+        onSubmit={handleSubmit}
+        serverAnswer={serverAnswer}
       >
         <AuthPageInput
           label='Имя'
@@ -24,7 +50,12 @@ export default function Register() {
           name='name'
           id='name'
           placeholder='Например, Иван'
-          errorText='Проверка имени'
+          minLength={2}
+          maxLength={30}
+          errorText={errors.name || ''}
+          value={values.name || ''}
+          errClass={errors.name || ''}
+          onChange={handleChange}
         />
         <AuthPageInput
           label='E-mail'
@@ -32,7 +63,10 @@ export default function Register() {
           name='email'
           id='email'
           placeholder='pochta@yandex.ru'
-          errorText='Проверка email'
+          errorText={errors.email || ''}
+          value={values.email || ''}
+          errClass={errors.email || ''}
+          onChange={handleChangeEmail}
         />
         <AuthPageInput
           label='Пароль'
@@ -40,7 +74,12 @@ export default function Register() {
           name='password'
           id='password'
           placeholder='Сложный пароль'
-          errorText='Проверка пароля'
+          minLength={6}
+          maxLength={20}
+          errorText={errors.password || ''}
+          value={values.password || ''}
+          errClass={errors.password || ''}
+          onChange={handleChange}
         />
       </AuthPage>
     </section>

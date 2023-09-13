@@ -6,10 +6,8 @@ export default function usePopupClose(isOpen, closePopup) {
 
     const handleOverlayClick = (e) => {
       if (
-        e.target.classList.contains('popup_opened') || //заготовка на будущие попапы
-        e.target.classList.contains('popup__close-btn') || //заготовка на будущие попапы
-        e.target.classList.contains('mobile-nav_active') || //мобильное меню
-        e.target.classList.contains('mobile-nav__close-btn') //мобильное меню
+        e.target.classList.contains('mobile-nav_active') || // мобильное меню
+        e.target.classList.contains('mobile-nav__close-btn') // мобильное меню
       ) {
         closePopup();
       }
