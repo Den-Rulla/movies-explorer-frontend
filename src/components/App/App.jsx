@@ -3,17 +3,18 @@ import { useEffect, useState } from 'react';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import * as auth from '../../utils/Auth';
 import { mainApi } from '../../utils/MainApi';
+import { moviesApi } from '../../utils/MoviesApi';
 import {
   errorsList,
   REGISTER_ERROR,
   AUTORIZE_ERROR,
   UPDATE_ERROR,
+  SERVER_ERROR,
   REGISTER_OK,
   AUTORIZE_OK,
   UPDATE_TOOLTIP_OK,
   UPDATE_OK
 } from '../../utils/constants';
-import { moviesApi } from '../../utils/MoviesApi';
 
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -35,10 +36,13 @@ function App() {
   const [serverAnswer, setServerAnswer] = useState('');
   const [okMessage, setOkMessage] = useState('');
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [toolTipText, setToolTipText] = useState('');
   const [openToolTip, setOpenToolTip] = useState(false);
   const { pathname } = useLocation();
+  const [allMovies, setAllMovies] = useState({});
+  const [savedMovies, setSavedMovies] = useState({});
+  const [toolTipErr, setToolTipErr] = useState(false);
 
   const renderHeader = [
     '/',
@@ -62,7 +66,13 @@ function App() {
   }, [openToolTip]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    if (['/signup', '/signin'].includes(pathname) && !isAuth) {
+      setIsLoading(false);
+    }
+  }, [pathname, isAuth]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
     if (token) {
       auth
         .getToken(token)
@@ -78,15 +88,38 @@ function App() {
         })
         .catch((err) => {
           console.log(`${err}`);
+          setToolTipErr(true);
+          setToolTipText(errorsList[err]?.message ?? SERVER_ERROR);
+          setOpenToolTip(true);
         });
     }
   }, []);
 
+  async function fetchMoviesAndUserInfo() {
+    try {
+      const allMovies = await moviesApi.getMovies();
+      const userInfo = await mainApi.getUserInfo();
+      const savedMovies = await mainApi.getSavedMovies();
+      setCurrentUser(userInfo);
+      setAllMovies(allMovies);
+      setSavedMovies(savedMovies);
+    } catch (err) {
+      console.log(`${err}`);
+      setToolTipErr(true);
+      setToolTipText(errorsList[err]?.message ?? SERVER_ERROR);
+      setOpenToolTip(true);
+    }
+  }
+
   useEffect(() => {
     if (isAuth) {
-      mainApi
-        .getUserInfo()
-        .then((userData) => setCurrentUser(userData))
+      fetchMoviesAndUserInfo()
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
     }
   }, [isAuth]);
 
@@ -96,6 +129,7 @@ function App() {
       .register({ name, email, password })
       .then((res) => {
         setToolTipText(REGISTER_OK);
+        setToolTipErr(false);
         setOpenToolTip(true);
         if (res) {
           handleLogin({email: email, password: password});
@@ -103,11 +137,9 @@ function App() {
       })
       .catch((err) => {
         setServerAnswer(errorsList[err]?.message ?? REGISTER_ERROR);
-      })
-      .finally(() => {
         setIsLoading(false);
-      });
-  }
+      })
+    }
 
   function handleLogin({ email, password }) {
     setIsLoading(true);
@@ -116,19 +148,19 @@ function App() {
       .then((confirm) => {
         if (confirm.token) {
           setCurrentUser({ email, password })
-          localStorage.setItem("token", confirm.token);
+          localStorage.setItem('token', confirm.token);
           setIsAuth(true);
           setToolTipText(AUTORIZE_OK);
+          setToolTipErr(false);
           setOpenToolTip(true);
           navigate('/movies', { replace: true });
         }
       })
       .catch((err) => {
-        setServerAnswer(errorsList[err]?.message ?? AUTORIZE_ERROR);
-      })
-      .finally(() => {
         setIsLoading(false);
-      });
+        setServerAnswer(errorsList[err]?.message ?? AUTORIZE_ERROR);
+
+      })
   }
 
   function handleUpdateUser({ name, email }) {
@@ -139,6 +171,7 @@ function App() {
         setCurrentUser(res);
         setOkMessage(UPDATE_OK);
         setToolTipText(UPDATE_TOOLTIP_OK);
+        setToolTipErr(false);
         setOpenToolTip(true);
       })
       .catch((err) => {
@@ -149,86 +182,137 @@ function App() {
       });
   }
 
+  function handleSaveMovie(movie, handleButtonToggle) {
+    mainApi
+      .addMovie(movie)
+      .then((newMovie) => {
+        setSavedMovies([...savedMovies, newMovie]);
+        handleButtonToggle(true);
+      })
+      .catch((err) => {
+        console.log(err);
+          setToolTipErr(true);
+          setToolTipText(errorsList[err]?.message ?? SERVER_ERROR);
+          setOpenToolTip(true);
+      });
+  }
+
+  function handleDeleteMovie(movieId, handleButtonToggle) {
+    const lastSearchInSavedMovies = JSON.parse(localStorage.getItem('lastSearchInSavedMovies'));
+    mainApi
+      .deleteMovie(movieId)
+      .then(() => {
+        handleButtonToggle(false)
+        const newSavedMovies = savedMovies.filter((item) => item._id !== movieId)
+        setSavedMovies(newSavedMovies);
+        localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
+
+        if (lastSearchInSavedMovies) {
+          const newSearchInSavedMovies = lastSearchInSavedMovies.filter((item) => item._id !== movieId)
+          localStorage.setItem('lastSearchInSavedMovies', JSON.stringify(newSearchInSavedMovies));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+          setToolTipErr(true);
+          setToolTipText(errorsList[err]?.message ?? SERVER_ERROR);
+          setOpenToolTip(true);
+      });
+  }
+
   function handleExit() {
     setIsAuth(false);
-    localStorage.removeItem("token");
-    navigate("/", { replace: true });
+    localStorage.clear();
+    setSavedMovies();
+    navigate('/', { replace: true });
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className='page'>
-        { renderHeader ? <Header isAuth={isAuth} setIsAuth={setIsAuth} /> : '' }
-        <main className='main'>
-          <Routes>
-            <Route path='/'
-              element={
-                <Main />
+        <div className='page'>
+          { renderHeader ? <Header isAuth={isAuth} setIsAuth={setIsAuth} /> : '' }
+          <main className='main'>
+            <Routes>
+              <Route path='/'
+                element={
+                  <Main />
+                  }
+              />
+              <Route element={<ProtectedRoute isAuth={isAuth} />}>
+              <Route path='/movies'
+                element={
+                  <Movies
+                    isAuth={isAuth}
+                    isLoading={isLoading}
+                    handleSaveMovie={handleSaveMovie}
+                    handleDeleteMovie={handleDeleteMovie}
+                    allMovies={allMovies}
+                    savedMovies={savedMovies}
+                    setSavedMovies={setSavedMovies}
+                  />
                 }
-            />
-            <Route path='/movies'
-              element={
-                <ProtectedRoute
-                  element={Movies}
-                  isAuth={isAuth}
-                />
-              }
-            />
-            <Route path='/saved-movies'
-              element={
-                <ProtectedRoute
-                  element={SavedMovies}
-                  isAuth={isAuth}
-                />
-              }
-            />
-            <Route path='/profile'
-              element={
-                <ProtectedRoute
-                  element={Profile}
-                  handleExit={handleExit}
-                  handleUpdateUser={handleUpdateUser}
-                  serverAnswer={serverAnswer}
-                  setServerAnswer={setServerAnswer}
-                  isLoading={isLoading}
-                  okMessage={okMessage}
-                  setOkMessage={setOkMessage}
-                  isAuth={isAuth}
-                />
-              }
-            />
-            <Route path='/signin'
-              element={
-                <Login
-                  handleLogin={handleLogin}
-                  serverAnswer={serverAnswer}
-                  setServerAnswer={setServerAnswer}
-                  isLoading={isLoading}
-                />
-              }
-            />
-            <Route path='/signup'
-              element={
-                <Register
-                  handleRegister={handleRegister}
-                  serverAnswer={serverAnswer}
-                  setServerAnswer={setServerAnswer}
-                  isLoading={isLoading}
-                />
-              }
-            />
-            <Route path='*' element={<PageNotFound />} />
-          </Routes>
-        </main>
-        { renderFooter ? <Footer /> : '' }
+              />
+              <Route path='/saved-movies'
+                element={
+                  <SavedMovies
+                    isAuth={isAuth}
+                    isLoading={isLoading}
+                    handleSaveMovie={handleSaveMovie}
+                    handleDeleteMovie={handleDeleteMovie}
+                    savedMovies={savedMovies}
+                    setSavedMovies={setSavedMovies}
+                  />
+                }
+              />
+              <Route path='/profile'
+                element={
+                  <Profile
+                    handleExit={handleExit}
+                    handleUpdateUser={handleUpdateUser}
+                    serverAnswer={serverAnswer}
+                    setServerAnswer={setServerAnswer}
+                    isLoading={isLoading}
+                    okMessage={okMessage}
+                    setOkMessage={setOkMessage}
+                    isAuth={isAuth}
+                  />
+                }
+              />
+              </Route>
+              <Route path='/signin'
+                element={
+                  <Login
+                    handleLogin={handleLogin}
+                    serverAnswer={serverAnswer}
+                    setServerAnswer={setServerAnswer}
+                    isLoading={isLoading}
+                  />
+                }
+              />
+              <Route path='/signup'
+                element={
+                  <Register
+                    handleRegister={handleRegister}
+                    serverAnswer={serverAnswer}
+                    setServerAnswer={setServerAnswer}
+                    isLoading={isLoading}
+                  />
+                }
+              />
+              <Route path='*' element={<PageNotFound />} />
+            </Routes>
 
-        <InfoTooltip
-          openToolTip={openToolTip}
-          setOpenToolTip={setOpenToolTip}
-          toolTipText={toolTipText}
-        />
+          </main>
+          { renderFooter ? <Footer /> : '' }
 
-      </div>
+          <InfoTooltip
+            openToolTip={openToolTip}
+            toolTipErr={toolTipErr}
+            setOpenToolTip={setOpenToolTip}
+            toolTipText={toolTipText}
+          />
+
+        </div>
     </CurrentUserContext.Provider>
   );
 }

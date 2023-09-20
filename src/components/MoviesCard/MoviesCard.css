@@ -36,9 +36,9 @@
 
 .movies-card__image {
 	display: block;
-	width: 360px;
+	width: 358px;
 	height: 200px;
-	object-fit: contain;
+	object-fit: fill;
 	object-position: center;
 }
 
@@ -95,7 +95,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    max-width: 260px;
+    max-width: 230px;
   }
 
   .movies-card__duration {

@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './SearchForm.css';
 
-export default function SearchForm() {
+export default function SearchForm({ onSubmit, searchInputValue, setSearchInputValue, handleCheckbox, isShortMovie }) {
 
-  const {values, handleChangeSearch, errors, isValid } = useFormAndValidation();
-
-  const [errorText, setErrorText] = useState([]);
+  const [errorText, setErrorText] = useState('');
 
   useEffect(() => {
-    if (isValid) {
+    if (searchInputValue) {
       setErrorText('');
     }
-  }, [isValid]);
+  }, [searchInputValue]);
+
+  function handleChangeSearch(evt) {
+    setSearchInputValue(evt.target.value);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    if (!isValid) {
-      setErrorText('Нужно ввести ключевое слово');
+    if (!searchInputValue) {
+      setErrorText('Введите ключевое слово');
       return;
+    } else {
+        onSubmit(searchInputValue, isShortMovie);
+        setErrorText('');
     }
   }
 
@@ -28,11 +31,15 @@ export default function SearchForm() {
     <section className='search-form-section'>
       <div className='search-form-cover'>
         <form className='search-form' onSubmit={handleSubmit} noValidate>
-          <input type='text' className='search-form__input' placeholder='Фильм' name='search' onChange={handleChangeSearch} value={values.search || ''} required />
-          <button className='search-form__btn' type='submit' disabled={errors.search}>Поиск</button>
+          <input type='text' className='search-form__input' placeholder='Фильм' name='search' onChange={handleChangeSearch} value={searchInputValue} required />
+          <button className='search-form__btn' type='submit' disabled={errorText}>Поиск</button>
         </form>
-        <span className='search-form__error'>{`${errorText ? errorText : errors.search}`}</span>
-        <FilterCheckbox />
+        <span className='search-form__error'>{errorText}</span>
+
+        <FilterCheckbox
+          handleChange={handleCheckbox}
+          isShortMovie={isShortMovie}
+        />
       </div>
     </section>
   );

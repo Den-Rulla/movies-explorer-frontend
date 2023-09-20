@@ -10,7 +10,7 @@ class MainApi {
     return Promise.reject(`Ошибка ${res.status}`);
   }
 
-  addMovie({ movieData }) {
+  addMovie(movieData) {
     const token = localStorage.getItem('token');
     return fetch(`${this._baseUrl}/movies`, {
       method: "POST",

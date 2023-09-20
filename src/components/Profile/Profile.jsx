@@ -26,6 +26,10 @@ export default function Profile({
 
   const currentUser = useContext(CurrentUserContext);
 
+  const isCurrentUserValues = (values.name === currentUser.name && values.email === currentUser.email);
+
+  const [showSaveBtn, setShowSaveBtn] = useState(false);
+
   useEffect(() => {
 		setServerAnswer('');
     setOkMessage('');
@@ -40,7 +44,7 @@ export default function Profile({
   }, [currentUser, setValues, setIsValid]);
 
   useEffect(() => {
-    if (values.name === currentUser.name && values.email === currentUser.email) {
+    if (isCurrentUserValues) {
       setIsValid(false);
     }
   });
@@ -48,13 +52,15 @@ export default function Profile({
   function handleSubmit(e) {
     e.preventDefault();
     setServerAnswer('');
-    handleUpdateUser({name: values.name, email: values.email});
+    if (!isCurrentUserValues) {
+      handleUpdateUser({name: values.name, email: values.email});
+    } else {
+      return;
+    }
     if (!isLoading) {
       setShowSaveBtn(false);
     }
   }
-
-  const [showSaveBtn, setShowSaveBtn] = useState(false);
 
   function handleShowSaveBtn() {
     setShowSaveBtn(true);

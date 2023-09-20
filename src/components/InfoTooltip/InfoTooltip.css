@@ -32,6 +32,10 @@
   animation: fadeOut 3s linear forwards;
 }
 
+.tooltip_type_error {
+  background-color: rgba(220, 80, 61, 0.5);
+}
+
 .tooltip__close-btn {
   position: relative;
   left: 130px;
