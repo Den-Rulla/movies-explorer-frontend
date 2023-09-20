@@ -49,11 +49,8 @@ export default function SavedMovies({
   }
 
   function handleShortMovieChange() {
-    setIsShortMovie((prevIsShortMovie) => !prevIsShortMovie);
-
-    if (searchInputValue !== '') {
+      setIsShortMovie((prevIsShortMovie) => !prevIsShortMovie);
       handleSearch(searchInputValue, !isShortMovie);
-    }
   }
 
   return (
