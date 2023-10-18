@@ -108,6 +108,7 @@ function App() {
       setToolTipErr(true);
       setToolTipText(errorsList[err]?.message ?? SERVER_ERROR);
       setOpenToolTip(true);
+      handleExit();
     }
   }
 
