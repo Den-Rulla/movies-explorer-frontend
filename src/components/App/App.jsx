@@ -88,10 +88,13 @@ function App() {
         })
         .catch((err) => {
           console.log(`${err}`);
-          setToolTipErr(true);
-          setToolTipText(errorsList[err]?.message ?? SERVER_ERROR);
-          setOpenToolTip(true);
-          handleExit();
+          if (err === 'Ошибка: 401') {
+            handleExit();
+          } else {
+            setToolTipErr(true);
+            setToolTipText(errorsList[err]?.message ?? SERVER_ERROR);
+            setOpenToolTip(true);
+          }
         });
     }
   }, []);
