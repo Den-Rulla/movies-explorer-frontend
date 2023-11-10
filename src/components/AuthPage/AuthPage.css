@@ -14,11 +14,11 @@
 }
 
 .auth-page__form_type_register {
-  margin-bottom: 134px;
+  margin-bottom: 100px;
 }
 
 .auth-page__form_type_login {
-  margin-bottom: 204px;
+  margin-bottom: 170px;
 }
 
 .auth-page__form-btn {
@@ -35,12 +35,41 @@
 	font-weight: 500;
 	line-height: normal;
 	cursor: pointer;
+  transition: .3s;
+}
+
+.auth-page__server-answer {
+  color: #FF004C;
+  text-align: center;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-bottom: 20px;
+  width: 100%;
+  display: block;
+  min-height: 14px;
+}
+
+.auth-page__server-answer_type_ok {
+  color: rgb(0, 214, 0);
 }
 
 .auth-page__form-btn:hover {
 	opacity: 0.8;
   background: #3456F3;
 	transition: .3s;
+}
+
+.auth-page__form-btn_type_disabled {
+  background-color: #F8F8F8;
+  color: #C2C2C2;
+}
+
+.auth-page__form-btn_type_disabled:hover {
+  background-color: #F8F8F8;
+  opacity: 1;
+  cursor: auto;
 }
 
 .auth-page__link-cover {

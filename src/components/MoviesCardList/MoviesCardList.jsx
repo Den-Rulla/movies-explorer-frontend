@@ -1,37 +1,43 @@
-import { useEffect, useState } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
+import SearchErrMessage from '../SearchErrMessage/SearchErrMessage';
 import './MoviesCardList.css';
 
-export default function MoviesCardList() {
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }, []);
+export default function MoviesCardList({
+  allMovies,
+  savedMovies,
+  handleSave,
+  handleDelete,
+  setSavedMovies,
+  isLoading,
+  isNotFound
+}) {
 
   return (
   <>
     { isLoading ? (
       <Preloader />
-    ) : (
+        ) : isNotFound ? (
+      <SearchErrMessage
+        text={'Ничего не найдено'}/>
+        ) : (
     <ul className='movies-card-list'>
-      <MoviesCard />
-      <MoviesCard />
-      <MoviesCard />
-      <MoviesCard />
-      <MoviesCard />
+     {allMovies &&
+        allMovies?.map((movie) => (
+          <MoviesCard
+            key={movie._id || movie.id}
+            savedMovies={savedMovies || allMovies}
+            handleDeleteMovie={handleDelete}
+            handleSaveMovie={handleSave}
+            movie={movie}
+            setSavedMovies={setSavedMovies}
+            {...movie}
+          />
+        )
+      )}
     </ul>
-    )}
-
-    { !isLoading ? (
-      <div className='more-btn-cover'>
-        <button className='more-btn' type='button'>Ещё</button>
-      </div>
-    ) : '' }
+    )
+    }
   </>
   );
 }

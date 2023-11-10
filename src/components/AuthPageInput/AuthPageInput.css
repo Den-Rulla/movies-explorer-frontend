@@ -35,6 +35,14 @@
 	border-bottom: 1px solid #4285F4;;
 }
 
+.auth-page-input__input_type_error {
+  border-bottom: 1px solid #EE3465;
+}
+
+.auth-page-input__input_type_error:focus {
+  border-bottom: 1px solid #EE3465;
+}
+
 .auth-page-input-error {
 	color: #EE3465;
 	font-size: 10px;
